@@ -1,23 +1,17 @@
+import { createStore } from "redux";
+
 const plus = document.getElementById("add");
 const minus = document.getElementById("minus");
 const number = document.querySelector("span");
 
-let count = 0;
-
-number.innerText = count;
-
-const updateText = () => {
-  number.innerText = count;
+const countModifier = (state = 0) => {
+  return state;
 };
 
-const handleAdd = () => {
-  count = count + 1;
-  updateText();
-};
-const handleMinus = () => {
-  count = count - 1;
-  updateText();
-};
+const countStore = createStore(countModifier);
 
-plus.addEventListener("click", handleAdd);
-minus.addEventListener("click", handleMinus);
+// store: data 를 담는 저장소
+// state: 변하는 data
+// reducer: data 를 modify 하는 function
+console.log(countStore); // {dispatch: ƒ, subscribe: ƒ, getState: ƒ, replaceReducer: ƒ, @@observable: ƒ}
+console.log(countStore.getState()); // 0
