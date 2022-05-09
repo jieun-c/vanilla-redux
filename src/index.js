@@ -4,14 +4,24 @@ const plus = document.getElementById("add");
 const minus = document.getElementById("minus");
 const number = document.querySelector("span");
 
-const countModifier = (state = 0) => {
-  return state;
+// reducer는 action으로 communication 을 한다.
+const countModifier = (count = 0, action) => {
+  console.log(count, action);
+  if (action.type === "ADD") {
+    return count + 1;
+  } else if (action.type === "MINUS") {
+    return count - 1;
+  } else {
+    return count;
+  }
 };
 
 const countStore = createStore(countModifier);
 
-// store: data 를 담는 저장소
-// state: 변하는 data
-// reducer: data 를 modify 하는 function
-console.log(countStore); // {dispatch: ƒ, subscribe: ƒ, getState: ƒ, replaceReducer: ƒ, @@observable: ƒ}
-console.log(countStore.getState()); // 0
+// action 을 부르기 위해 dispatch 함수를 사용한다.
+countStore.dispatch({ type: "ADD" });
+countStore.dispatch({ type: "ADD" });
+countStore.dispatch({ type: "ADD" });
+countStore.dispatch({ type: "MINUS" });
+
+console.log(countStore.getState());
