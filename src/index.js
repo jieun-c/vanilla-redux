@@ -8,15 +8,12 @@ const ADD_TODO = "ADD_TODO";
 const DELETE_TODO = "DELETE_TODO";
 
 // NEVER! MUTATE STATE!
-// store를 수정하기 위한 방법은 action을 보내는 방법뿐이다.
-// mutate 하는것이 아니라 새로운 objects(state)를 리턴한다.
-// 공식문서에서는 reducer 안에서 Date.now()를 쓰지 않길 권장하고 있다.
 const reducer = (state = [], action) => {
   switch (action.type) {
     case ADD_TODO:
       return [{ text: action.text, id: action.id }, ...state];
     case DELETE_TODO:
-      return [];
+      return state.filter((toDo) => toDo.id !== action.id);
     default:
       return state;
   }
@@ -44,7 +41,7 @@ const dispatchAddTodo = (text) => {
 };
 
 const dispatchDeleteToDo = (e) => {
-  const id = e.target.parentNode.id;
+  const id = parseInt(e.target.parentNode.id);
   store.dispatch(deleteToDo(id));
 };
 
@@ -62,7 +59,6 @@ const paintToDos = () => {
     ul.appendChild(li);
   });
 };
-store.subscribe(paintToDos);
 
 const onSubmit = (e) => {
   e.preventDefault();
@@ -72,3 +68,4 @@ const onSubmit = (e) => {
 };
 
 form.addEventListener("submit", onSubmit);
+store.subscribe(paintToDos);
