@@ -62,6 +62,8 @@ const paintToDos = () => {
 
 const onSubmit = (e) => {
   e.preventDefault();
+  if (!input.value) return;
+
   const toDo = input.value;
   input.value = "";
   dispatchAddTodo(toDo);
