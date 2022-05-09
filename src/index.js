@@ -4,9 +4,10 @@ const plus = document.getElementById("add");
 const minus = document.getElementById("minus");
 const number = document.querySelector("span");
 
-// reducer는 action으로 communication 을 한다.
+// 초기값
+number.innerText = 0;
+
 const countModifier = (count = 0, action) => {
-  console.log(count, action);
   if (action.type === "ADD") {
     return count + 1;
   } else if (action.type === "MINUS") {
@@ -18,10 +19,19 @@ const countModifier = (count = 0, action) => {
 
 const countStore = createStore(countModifier);
 
-// action 을 부르기 위해 dispatch 함수를 사용한다.
-countStore.dispatch({ type: "ADD" });
-countStore.dispatch({ type: "ADD" });
-countStore.dispatch({ type: "ADD" });
-countStore.dispatch({ type: "MINUS" });
+const onChange = () => {
+  number.innerText = countStore.getState();
+};
 
-console.log(countStore.getState());
+// subscribe 는 store 안에 있는 변화를 알 수 있게함
+countStore.subscribe(onChange);
+
+const handleAdd = () => {
+  countStore.dispatch({ type: "ADD" });
+};
+const handleMinus = () => {
+  countStore.dispatch({ type: "MINUS" });
+};
+
+plus.addEventListener("click", handleAdd);
+minus.addEventListener("click", handleMinus);
