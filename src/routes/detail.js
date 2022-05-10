@@ -29,7 +29,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch, ownProps) {
   return {
-    onBtnClick: (id) => dispatch(actionCreators.deleteToDo(id)),
+    onBtnClick: (id) => dispatch(actionCreators.deleteToDo(parseInt(id))),
   };
 }
 

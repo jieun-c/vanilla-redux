@@ -5,10 +5,10 @@ import { actionCreators } from "../store/store";
 
 const Home = ({ toDos, addToDo, ...rest }) => {
   const [text, setText] = useState("");
-
   const onSubmit = (e) => {
     e.preventDefault();
-    addToDo(text);
+    const id = Date.now();
+    addToDo(text, id);
     setText("");
   };
 
@@ -20,8 +20,8 @@ const Home = ({ toDos, addToDo, ...rest }) => {
         <button>ADD</button>
       </form>
       <ul>
-        {toDos.map((toDo) => (
-          <ToDo {...toDo} key={toDo.id} />
+        {toDos.map((toDo, idx) => (
+          <ToDo {...toDo} key={idx} />
         ))}
       </ul>
     </>
@@ -34,9 +34,9 @@ function mapStateToProps(state) {
   return { toDos: state };
 }
 
-function mapDispatchToProps(dispatch, ownProps) {
+function mapDispatchToProps(dispatch) {
   return {
-    addToDo: (text) => dispatch(actionCreators.addToDo(text)),
+    addToDo: (text, id) => dispatch(actionCreators.addToDo({ text, id })),
   };
 }
 

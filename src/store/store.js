@@ -1,39 +1,20 @@
 import { createStore } from "redux";
+import { createAction, createReducer } from "@reduxjs/toolkit";
 
-const ADD = "ADD";
-const DELETE = "DELETE";
+const addToDo = createAction("ADD");
+const deleteToDo = createAction("DELETE");
 
-const addToDo = (text) => {
-  return {
-    type: ADD,
-    id: Date.now(),
-    text,
-  };
-};
-
-const deleteToDo = (id) => {
-  return {
-    type: DELETE,
-    id: parseInt(id),
-  };
-};
-
-JSON.parse(localStorage.getItem("toDos")) || localStorage.setItem("toDos", JSON.stringify([]));
-
-const reducer = (state = JSON.parse(localStorage.getItem("toDos")), action) => {
-  switch (action.type) {
-    case ADD:
-      const addItem = [{ text: action.text, id: action.id }, ...state];
-      localStorage.setItem("toDos", JSON.stringify(addItem));
-      return addItem;
-    case DELETE:
-      const delItem = state.filter((toDo) => toDo.id !== action.id);
-      localStorage.setItem("toDos", JSON.stringify(delItem));
-      return delItem;
-    default:
-      return state;
-  }
-};
+// Redux toolkit + Immer => Available mutate
+// mutable OR new state
+// return 할때는 새로운 state여야 한다.
+const reducer = createReducer([], {
+  [addToDo]: (state, action) => {
+    state.push({ text: action.payload.text, id: action.payload.id });
+  },
+  [deleteToDo]: (state, action) => {
+    return state.filter((toDo) => toDo.id !== action.payload);
+  },
+});
 
 const store = createStore(reducer);
 
