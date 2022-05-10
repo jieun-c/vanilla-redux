@@ -1,13 +1,14 @@
 import { useState } from "react";
 import { connect } from "react-redux";
+import { actionCreators } from "../store/store";
 
-const Home = ({ toDos }) => {
+const Home = ({ toDos, addToDo, ...rest }) => {
   const [text, setText] = useState("");
 
   const onSubmit = (e) => {
     e.preventDefault();
+    addToDo(text);
     setText("");
-    //console.log(props);
   };
 
   return (
@@ -22,9 +23,16 @@ const Home = ({ toDos }) => {
   );
 };
 
-function mapStateToProps(state, ownProps) {
+// vanilla 에서 사용했던 getState() 대신에
+// react 에서는 mapStateToProps 를 사용했다.
+function mapStateToProps(state) {
   return { toDos: state };
 }
 
-// home 에다가 connect 로 얻은 props 를 연결해준다.
-export default connect(mapStateToProps)(Home);
+function mapDispatchToProps(dispatch, ownProps) {
+  return {
+    addToDo: (text) => dispatch(actionCreators.addToDo(text)),
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
