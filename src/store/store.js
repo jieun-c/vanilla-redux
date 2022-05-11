@@ -1,5 +1,5 @@
 import { createStore } from "redux";
-import { createAction, createReducer } from "@reduxjs/toolkit";
+import { configureStore, createAction, createReducer } from "@reduxjs/toolkit";
 
 const addToDo = createAction("ADD");
 const deleteToDo = createAction("DELETE");
@@ -17,6 +17,7 @@ const reducer = createReducer([], {
 });
 
 const store = createStore(reducer);
+//const store = configureStore({ reducer }); => 리듀스의 상태변화 확인
 
 export const actionCreators = {
   addToDo,
