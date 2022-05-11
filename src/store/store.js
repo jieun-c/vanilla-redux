@@ -1,27 +1,17 @@
-import { createStore } from "redux";
-import { configureStore, createAction, createReducer } from "@reduxjs/toolkit";
+import { configureStore, createSlice } from "@reduxjs/toolkit";
 
-const addToDo = createAction("ADD");
-const deleteToDo = createAction("DELETE");
-
-// Redux toolkit + Immer => Available mutate
-// mutable OR new state
-// return 할때는 새로운 state여야 한다.
-const reducer = createReducer([], {
-  [addToDo]: (state, action) => {
-    state.push({ text: action.payload.text, id: action.payload.id });
-  },
-  [deleteToDo]: (state, action) => {
-    return state.filter((toDo) => toDo.id !== action.payload);
+const toDos = createSlice({
+  name: "toDosReducer",
+  initialState: [],
+  reducers: {
+    add: (state, action) => {
+      state.push({ text: action.payload.text, id: action.payload.id });
+    },
+    remove: (state, action) => {
+      return state.filter((toDo) => toDo.id !== action.payload);
+    },
   },
 });
 
-const store = createStore(reducer);
-//const store = configureStore({ reducer }); => 리듀스의 상태변화 확인
-
-export const actionCreators = {
-  addToDo,
-  deleteToDo,
-};
-
-export default store;
+export const { add, remove } = toDos.actions;
+export default configureStore({ reducer: toDos.reducer });

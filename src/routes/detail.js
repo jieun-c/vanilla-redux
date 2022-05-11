@@ -1,6 +1,6 @@
 import { connect } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { actionCreators } from "../store/store";
+import { remove } from "../store/store";
 
 const Detail = ({ toDos, onBtnClick }) => {
   const id = useParams().id;
@@ -29,7 +29,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch, ownProps) {
   return {
-    onBtnClick: (id) => dispatch(actionCreators.deleteToDo(parseInt(id))),
+    onBtnClick: (id) => dispatch(remove(parseInt(id))),
   };
 }
 
